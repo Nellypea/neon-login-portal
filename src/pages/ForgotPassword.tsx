@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import ReCAPTCHA from "react-google-recaptcha";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +12,7 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -19,6 +21,13 @@ const ForgotPassword = () => {
       toast({ title: "Validation Error", description: "Please enter your email.", variant: "destructive" });
       return;
     }
+    
+    const recaptchaToken = recaptchaRef.current?.getValue();
+    if (!recaptchaToken) {
+      toast({ title: "Verification Required", description: "Please verify the reCAPTCHA.", variant: "destructive" });
+      return;
+    }
+    
     setLoading(true);
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
       redirectTo: `${window.location.origin}/reset-password`,
@@ -34,26 +43,26 @@ const ForgotPassword = () => {
   return (
     <div className="flex min-h-screen items-center justify-center px-4 grid-bg">
       <div className="w-full max-w-md space-y-8">
-        <div className="text-center">
-          <h1 className="font-display text-3xl font-bold text-primary neon-text tracking-wider">
+        <div className="text-center space-y-2">
+          <h1 className="text-4xl font-bold gradient-text">
             RESET PASSWORD
           </h1>
-          <p className="mt-2 text-muted-foreground">
-            {sent ? "Check your inbox for a reset link" : "Enter your email to receive a password reset link"}
+          <p className="text-sm text-muted-foreground font-medium">
+            {sent ? "Check your inbox for a password reset link" : "Enter your registered email to reset your password"}
           </p>
         </div>
 
-        <div className="glass-card p-8 space-y-6 neon-glow-sm">
+        <div className="glass-card p-8 space-y-6">
           {sent ? (
             <div className="text-center space-y-4">
-              <div className="mx-auto w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center neon-glow-sm">
+              <div className="mx-auto w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center">
                 <Mail className="h-8 w-8 text-primary" />
               </div>
               <p className="text-foreground/80">
-                If an account exists for <span className="text-primary font-medium">{email}</span>, you'll receive a password reset email shortly.
+                A password reset link has been sent to <span className="text-primary font-medium">{email}</span> if an account exists.
               </p>
               <Link to="/login">
-                <Button variant="outline" className="mt-4 border-border hover:neon-border transition-all">
+                <Button variant="outline" className="mt-4 border-border hover:bg-muted rounded-lg transition-all">
                   <ArrowLeft className="h-4 w-4 mr-2" /> Back to Login
                 </Button>
               </Link>
@@ -61,15 +70,22 @@ const ForgotPassword = () => {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-foreground/80 text-sm">Email</Label>
+                <Label htmlFor="email" className="text-foreground/90 text-sm font-medium">Email</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input id="email" type="email" placeholder="you@example.com" value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10 bg-muted/50 border-border focus:neon-border text-foreground placeholder:text-muted-foreground transition-shadow" required />
+                    className="pl-10 bg-input border-border focus:border-primary focus:ring-2 focus:ring-primary/20 text-foreground placeholder:text-muted-foreground transition-all rounded-lg" required />
                 </div>
               </div>
-              <Button type="submit" disabled={loading} className="w-full neon-glow font-semibold text-base h-11 transition-all duration-300 hover:scale-[1.02]">
+              <div className="flex justify-center py-2">
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                  theme="light"
+                />
+              </div>
+              <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base h-11 transition-all duration-300 rounded-lg">
                 {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Send Reset Link"}
               </Button>
               <p className="text-center text-sm text-muted-foreground">

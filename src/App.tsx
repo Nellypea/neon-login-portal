@@ -12,9 +12,6 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
-import ReCAPTCHA from "react-google-recaptcha";
-import { useState } from "react";
-import { supabase } from "./integrations/supabase/client";
 
 
 const queryClient = new QueryClient();
@@ -44,5 +41,4 @@ const App = () => (
     </TooltipProvider>
   </QueryClientProvider>
 );
-
 export default App;

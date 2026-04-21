@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,95 +6,116 @@
 
 @layer base {
   :root {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 95%;
+    /* Modern Professional Palette - Calye Safe */
+    --background: 0 0% 97%; /* Clean off-white */
+    --foreground: 225 15% 18%; /* Deep navy text */
 
-    --card: 0 0% 7%;
-    --card-foreground: 0 0% 95%;
+    /* Card & Surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 225 15% 18%;
 
-    --popover: 0 0% 7%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 225 15% 18%;
 
-    --primary: 120 100% 50%;
-    --primary-foreground: 0 0% 2%;
+    /* Primary: Professional Teal */
+    --primary: 189 97% 39%; 
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 120 80% 15%;
-    --secondary-foreground: 120 100% 50%;
+    /* Secondary: Complementary Navy */
+    --secondary: 225 35% 30%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 55%;
+    /* Muted / Decorative */
+    --muted: 220 13% 85%;
+    --muted-foreground: 220 10% 50%;
 
-    --accent: 120 80% 15%;
-    --accent-foreground: 120 100% 50%;
+    /* Accent: Vibrant Teal */
+    --accent: 189 90% 45%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --border: 220 13% 90%;
+    --input: 0 0% 100%;
+    --ring: 189 97% 39%;
 
-    --border: 120 40% 15%;
-    --input: 120 20% 12%;
-    --ring: 120 100% 50%;
+    --radius: 0.5rem; /* Rounded corners for modern feel */
 
-    --radius: 0.75rem;
-
-    --neon-glow: 0 0 8px hsl(120, 100%, 50%), 0 0 20px hsl(120, 100%, 50%, 0.4), 0 0 40px hsl(120, 100%, 50%, 0.15);
-    --neon-glow-sm: 0 0 4px hsl(120, 100%, 50%), 0 0 12px hsl(120, 100%, 50%, 0.3);
-    --neon-text-glow: 0 0 10px hsl(120, 100%, 50%, 0.8), 0 0 30px hsl(120, 100%, 50%, 0.4);
-
-    --font-display: 'Orbitron', monospace;
+    /* Typography: Modern & Clear */
+    --font-display: 'Poppins', sans-serif;
     --font-body: 'Inter', sans-serif;
+    --font-mono: 'Roboto Mono', monospace;
 
-    --sidebar-background: 0 0% 5%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 120 100% 50%;
-    --sidebar-primary-foreground: 0 0% 2%;
-    --sidebar-accent: 120 80% 15%;
-    --sidebar-accent-foreground: 120 100% 50%;
-    --sidebar-border: 120 40% 15%;
-    --sidebar-ring: 120 100% 50%;
+    /* Sidebar - Professional */
+    --sidebar-background: 225 35% 30%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 189 97% 39%;
+    --sidebar-border: 225 30% 25%;
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    @apply text-4xl;
+  }
+
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-xl;
+  }
+
+  p {
+    line-height: 1.6;
   }
 }
 
 @layer utilities {
-  .font-display {
-    font-family: var(--font-display);
-  }
-
-  .neon-glow {
-    box-shadow: var(--neon-glow);
-  }
-
-  .neon-glow-sm {
-    box-shadow: var(--neon-glow-sm);
-  }
-
-  .neon-text {
-    text-shadow: var(--neon-text-glow);
-  }
-
-  .neon-border {
-    border-color: hsl(120, 100%, 50%);
-    box-shadow: var(--neon-glow-sm);
-  }
-
+  /* Modern Premium Card */
   .glass-card {
-    @apply bg-card/80 backdrop-blur-xl border border-border rounded-xl;
+    @apply bg-white border border-border shadow-sm rounded-xl transition-all duration-300;
   }
 
+  .glass-card:hover {
+    @apply shadow-lg border-primary/20 transform -translate-y-0.5;
+  }
+
+  /* Premium elevated card */
+  .card-premium {
+    @apply bg-white border border-border rounded-xl shadow-md hover:shadow-xl transition-all duration-300;
+  }
+
+  /* Clean Data-Grid Background */
   .grid-bg {
-    background-image:
-      linear-gradient(hsl(120, 100%, 50%, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(120, 100%, 50%, 0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
+    background: linear-gradient(135deg, hsl(0, 0%, 97%) 0%, hsl(220, 20%, 96%) 100%);
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+
+  /* Icon badge */
+  .icon-badge {
+    @apply w-12 h-12 rounded-lg flex items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10 text-primary;
+  }
+
+  /* Smooth shadow */
+  .shadow-smooth {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   }
 }

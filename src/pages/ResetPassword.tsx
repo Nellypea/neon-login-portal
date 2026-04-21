@@ -54,10 +54,10 @@ const ResetPassword = () => {
   if (!ready) {
     return (
       <div className="flex min-h-screen items-center justify-center grid-bg">
-        <div className="glass-card p-8 text-center neon-glow-sm max-w-md">
-          <h2 className="font-display text-xl text-primary neon-text mb-4">INVALID LINK</h2>
-          <p className="text-muted-foreground mb-4">This password reset link is invalid or expired. Please request a new one.</p>
-          <Button variant="outline" onClick={() => navigate("/forgot-password")} className="border-border hover:neon-border">
+        <div className="glass-card p-8 text-center max-w-md">
+          <h2 className="text-2xl font-bold gradient-text mb-4">INVALID LINK</h2>
+          <p className="text-muted-foreground mb-6">This password reset link is invalid or expired. Please request a new one.</p>
+          <Button variant="outline" onClick={() => navigate("/forgot-password")} className="border-border hover:bg-muted rounded-lg">
             Request New Link
           </Button>
         </div>
@@ -68,19 +68,19 @@ const ResetPassword = () => {
   return (
     <div className="flex min-h-screen items-center justify-center px-4 grid-bg">
       <div className="w-full max-w-md space-y-8">
-        <div className="text-center">
-          <h1 className="font-display text-3xl font-bold text-primary neon-text tracking-wider">NEW PASSWORD</h1>
-          <p className="mt-2 text-muted-foreground">Enter your new password below</p>
+        <div className="text-center space-y-2">
+          <h1 className="text-4xl font-bold gradient-text">NEW PASSWORD</h1>
+          <p className="text-sm text-muted-foreground font-medium">Enter your new password below</p>
         </div>
-        <div className="glass-card p-8 space-y-6 neon-glow-sm">
+        <div className="glass-card p-8 space-y-6">
           <form onSubmit={handleReset} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-foreground/80 text-sm">New Password</Label>
+              <Label htmlFor="password" className="text-foreground/90 text-sm font-medium">New Password</Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input id="password" type={showPassword ? "text" : "password"} placeholder="••••••••"
                   value={password} onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 pr-10 bg-muted/50 border-border focus:neon-border text-foreground placeholder:text-muted-foreground transition-shadow" required />
+                  className="pl-10 pr-10 bg-input border-border focus:border-primary focus:ring-2 focus:ring-primary/20 text-foreground placeholder:text-muted-foreground transition-all rounded-lg" required />
                 <button type="button" onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors">
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -88,15 +88,15 @@ const ResetPassword = () => {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="confirm" className="text-foreground/80 text-sm">Confirm Password</Label>
+              <Label htmlFor="confirm" className="text-foreground/90 text-sm font-medium">Confirm Password</Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input id="confirm" type="password" placeholder="••••••••"
                   value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="pl-10 bg-muted/50 border-border focus:neon-border text-foreground placeholder:text-muted-foreground transition-shadow" required />
+                  className="pl-10 bg-input border-border focus:border-primary focus:ring-2 focus:ring-primary/20 text-foreground placeholder:text-muted-foreground transition-all rounded-lg" required />
               </div>
             </div>
-            <Button type="submit" disabled={loading} className="w-full neon-glow font-semibold text-base h-11 transition-all duration-300 hover:scale-[1.02]">
+            <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base h-11 transition-all duration-300 rounded-lg">
               {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Update Password"}
             </Button>
           </form>
